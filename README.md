@@ -1,32 +1,127 @@
-# React + TypeScript + Vite
+# Checkpoint : Conversion d'un projet React JavaScript vers TypeScript
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Objectif
 
-Currently, two official plugins are available:
+L'objectif de ce checkpoint est de convertir des composants React écrits en JavaScript vers TypeScript afin d'améliorer la sécurité du code grâce au typage statique.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+# Technologies utilisées
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- TypeScript
+- Vite
 
-## Expanding the Oxlint configuration
+---
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+# Étapes réalisées
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+## 1. Création du projet
+
+Création d'un projet React avec le template TypeScript grâce à Vite.
+
+```bash
+npm create vite@latest
+```
+
+Choix des options :
+
+- Framework : React
+- Variant : TypeScript
+
+Installation des dépendances :
+
+```bash
+npm install
+```
+
+Lancement du projet :
+
+```bash
+npm run dev
+```
+
+---
+
+## 2. Conversion du composant Greeting
+
+### Création d'une interface
+
+Une interface a été créée afin de décrire les propriétés (Props) du composant.
+
+```tsx
+interface GreetingProps {
+  name: string;
 }
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### Typage des Props
+
+Les props du composant ont ensuite été typées.
+
+```tsx
+const Greeting = ({ name }: GreetingProps) => {
+  return <div>Hello, {name}!</div>;
+};
+```
+
+### Utilisation du composant
+
+Le composant est appelé depuis `App.tsx` en lui passant une propriété `name`.
+
+```tsx
+<Greeting name="Hello" />
+```
+
+---
+
+## 3. Conversion du composant Counter
+
+### Création d'une interface pour le State
+
+Le composant utilise un état (`state`), il est donc nécessaire de définir son type.
+
+```tsx
+interface CounterState {
+  count: number;
+}
+```
+
+### Typage du composant
+
+Le composant ne reçoit aucune propriété (Props), mais possède un State.
+
+```tsx
+class Counter extends Component<{}, CounterState> {
+```
+
+- `{}` représente des Props vides.
+- `CounterState` représente le type du State.
+
+### Typage de la méthode
+
+La méthode `increment` ne retourne aucune valeur. Son type de retour est donc `void`.
+
+```tsx
+increment = (): void => {
+  this.setState({
+    count: this.state.count + 1,
+  });
+};
+```
+
+---
+
+ 
+ 
+# Résultat obtenu
+
+Le projet affiche :
+
+- Un message de bienvenue avec le nom passé en propriété.
+- Un compteur dont la valeur augmente à chaque clic sur le bouton **Increment**.
+
+---
+
+ 
+ 
